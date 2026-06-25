@@ -1,0 +1,16 @@
+# Render Blueprint Specification
+# See https://render.com/docs/blueprints for details
+services:
+  - type: web
+    name: ai-trading-platform
+    env: node
+    plan: free # Configured for Render Free Tier (SQLite resets on restarts)
+    buildCommand: npx prisma generate && npm run build
+    startCommand: npx prisma db push && npm run start
+    envVars:
+      - key: DATABASE_URL
+        value: file:./dev.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
